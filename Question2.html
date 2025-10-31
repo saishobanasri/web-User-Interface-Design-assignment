@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            transition: 0.3s;
+        }
+        .light-theme {
+            background-color: #fff5f7;
+            color: #333;
+        }
+        .dark-theme {
+            background-color: #2d2d2d;
+            color: #fff;
+        }
+        header {
+            background-color: #e6a4b4;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .dark-theme header {
+            background-color: #8b5a6b;
+        }
+        .card {
+            margin-bottom: 15px;
+            border-radius: 8px;
+        }
+        .panel-header {
+            background-color: #f0c4d0;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .dark-theme .panel-header {
+            background-color: #6b4654;
+        }
+        .panel-content {
+            padding: 15px;
+            display: none;
+        }
+        .filter-btn {
+            background-color: #e6a4b4;
+            border: none;
+            margin: 5px;
+        }
+        .filter-btn:hover {
+            background-color: #d18fa3;
+        }
+        @media (max-width: 768px) {
+            .col-md-4 {
+                margin-bottom: 15px;
+            }
+            header h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body class="light-theme">
+    <header>
+        <div class="container">
+            <h1>Employee Performance Dashboard</h1>
+            <button class="btn btn-dark" id="themeBtn">Switch to Dark Theme</button>
+        </div>
+    </header>
+
+    <div class="container">
+        <section class="mb-4">
+            <h4>Filter by Department:</h4>
+            <button class="btn filter-btn" data-dept="all">All</button>
+            <button class="btn filter-btn" data-dept="IT">IT</button>
+            <button class="btn filter-btn" data-dept="Sales">Sales</button>
+            <button class="btn filter-btn" data-dept="HR">HR</button>
+        </section>
+
+        <section>
+            <div class="row" id="employeeCards">
+                <div class="col-md-4 employee-card" data-dept="IT">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>John Doe - IT</h5>
+                            <p>Performance Score</p>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" style="width: 85%">85%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 employee-card" data-dept="Sales">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Sarah Smith - Sales</h5>
+                            <p>Performance Score</p>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" style="width: 92%">92%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 employee-card" data-dept="HR">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Mike Johnson - HR</h5>
+                            <p>Performance Score</p>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" style="width: 78%">78%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 employee-card" data-dept="IT">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Emma Wilson - IT</h5>
+                            <p>Performance Score</p>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" style="width: 88%">88%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 employee-card" data-dept="Sales">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>David Lee - Sales</h5>
+                            <p>Performance Score</p>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" style="width: 80%">80%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 employee-card" data-dept="HR">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Lisa Brown - HR</h5>
+                            <p>Performance Score</p>
+                            <div class="progress">
+                                <div class="progress-bar bg-warning" style="width: 75%">75%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mt-4">
+            <h4>Department Details</h4>
+            <div class="panel-header" id="itPanel">IT Department (Click to expand)</div>
+            <div class="panel-content">
+                <p>Total Employees: 2<br>Average Performance: 86.5%</p>
+            </div>
+
+            <div class="panel-header" id="salesPanel">Sales Department (Click to expand)</div>
+            <div class="panel-content">
+                <p>Total Employees: 2<br>Average Performance: 86%</p>
+            </div>
+
+            <div class="panel-header" id="hrPanel">HR Department (Click to expand)</div>
+            <div class="panel-content">
+                <p>Total Employees: 2<br>Average Performance: 76.5%</p>
+            </div>
+        </section>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        var isDark = false;
+
+        document.getElementById('themeBtn').onclick = function() {
+            if(isDark) {
+                document.body.className = 'light-theme';
+                this.textContent = 'Switch to Dark Theme';
+                isDark = false;
+            } else {
+                document.body.className = 'dark-theme';
+                this.textContent = 'Switch to Light Theme';
+                isDark = true;
+            }
+        };
+
+        $(document).ready(function() {
+            $('.panel-header').click(function() {
+                $(this).next('.panel-content').slideToggle();
+            });
+
+            $('.filter-btn').click(function() {
+                var dept = $(this).data('dept');
+                
+                if(dept === 'all') {
+                    $('.employee-card').show();
+                } else {
+                    $('.employee-card').hide();
+                    $('.employee-card[data-dept="' + dept + '"]').fadeIn();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
